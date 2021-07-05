@@ -1,0 +1,13 @@
+{
+	"repositories": {
+    	"packagist": { "url": "https://packagist.org", "type": "composer" }
+ 	},
+	"autoload": {
+		"psr-4": {
+			"App\\" : "app/"
+		}
+	},
+	"require": {
+		"illuminate/database": "^8.49"
+	}
+}
