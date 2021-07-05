@@ -9,7 +9,9 @@ class PostService {
 		$posts = Post::all();
 
 		if ($posts->count() > 0) {
-			return $posts->toQuery()->orderByDesc('updated_at')->get();
+			return $posts->toQuery()
+						 ->orderByDesc('created_at')
+						 ->get();
 		}
 		else {
 			return null;
