@@ -6,8 +6,10 @@ use App\Models\User;
 
 class ProfileService {
 	public static function getProfilePosts($username) {
-		$posts =  User::firstWhere('username', $username)->posts()->get();
-		return $posts;
+		return  User::firstWhere('username', $username)
+					->posts()
+					->orderByDesc('created_at')
+					->get();
 	}
 
 	public static function getProfileAllowedActions($actorUsername, $profileUsername) {
