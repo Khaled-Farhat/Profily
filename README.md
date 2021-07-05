@@ -1,9 +1,9 @@
 # Profily
 Profily is a place where users can create profiles and start writing posts and comments. It supports CRUD operations. There are three types of users (normal user, moderator, and admin).
 
-The project was built using PHP, Bootstrap 5, and Illuminate Database while learning the MVC design pattern.
+The project was built using PHP, Bootstrap 5, and Illuminate Database while learning the MVC architecture pattern.
 
-# Requirement
+# Requirements
 * PHP 7.4+.
 * MySQL.
 * Apache web server with `mod_rewrite` enabled.
@@ -17,7 +17,15 @@ The project was built using PHP, Bootstrap 5, and Illuminate Database while lear
 
 # Screenshots
 ![alt text](https://raw.githubusercontent.com/Khaled-Farhat/Profily/master/screenshots/home.png)
+
+
 ![alt text](https://raw.githubusercontent.com/Khaled-Farhat/Profily/master/screenshots/profile.png)
+
+
 ![alt text](https://raw.githubusercontent.com/Khaled-Farhat/Profily/master/screenshots/comments.png)
+
+
 ![alt text](https://raw.githubusercontent.com/Khaled-Farhat/Profily/master/screenshots/login.png)
+
+
 ![alt text](https://raw.githubusercontent.com/Khaled-Farhat/Profily/master/screenshots/notAllowed.png)
