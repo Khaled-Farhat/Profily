@@ -2,15 +2,15 @@
 	<div class="container">
 		<div class="shadow-sm card col-12 my-3">
 			<div class="card-body">
-			 	<h5 class="card-title"><?= $data['post']->title ?></h5>
+			 	<h5 class="card-title"><?= htmlentities($data['post']->title) ?></h5>
 
-			 	<span class="card-subtitle text-muted">Author: </span>
-			    <a href="<?= URL . '/Profile/viewProfile/' . $data['post']->user->username ?>" class="card-subtitle mb-2 text-muted"><?= $data['post']->user->username ?></a>
-			    <span>|  </span>
+				<span class="card-subtitle text-muted">Author: </span>
+				<a href="<?= URL . '/Profile/viewProfile/' . $data['post']->user->username ?>" class="card-subtitle mb-2 text-muted"><?= $data['post']->user->username ?></a>
+				<span>|  </span>
 
 			    <span class="card-subtitle mb-2 text-muted">Last update: <?= date('Y-M-d h:i', strtotime($data['post']->updated_at)) ?></span>
 
-			    <p class="card-text my-4 px-3"><?= nl2br($data['post']->content) ?></p>
+			    <p class="card-text my-4 px-3"><?= nl2br(htmlentities($data['post']->content)) ?></p>
 
 			    <a href="<?= URL . '/Comments/createComment/' . $data['post']->id  ?>" class="btn btn-primary bg-gradient">Create a comment</a>
 
@@ -37,7 +37,7 @@
 
 							    <span class="card-subtitle mb-2 text-muted">Last update: <?= date('Y-M-d h:i', strtotime($comment->updated_at)) ?></span>
 
-							    <p class="card-text mt-3"><?= $comment->content ?></p>
+							    <p class="card-text mt-3"><?= htmlentities($comment->content) ?></p>
 
 							    <?php
 							    	if (isset($data[$comment->id]['commentAllowedActions']['updateComment']) === true) {
