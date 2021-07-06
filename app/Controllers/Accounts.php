@@ -12,14 +12,13 @@ class Accounts extends Controller {
 	}
 
 	public function setModerator($promoteeUsername) {
-		$actorUsername = Session::get('USERNAME') ?? null;
+		$actorUsername = Session::get('USERNAME');
 
 		if (AccountService::isUserExists($promoteeUsername) === false) {
 			$this->view('Errors/error404');
 		}
-		else if ($actorUsername === null ||
-				 AccountService::canPromote($actorUsername, $promoteeUsername) === false) {
-			// the user is not logged-in or is not allowed to perform the operation
+		else if (AccountService::canPromote($actorUsername, $promoteeUsername) === false) {
+			// the user is not allowed to perform the operation
 			$this->view('Errors/notAllowed');
 		}
 		else {
@@ -29,14 +28,13 @@ class Accounts extends Controller {
 	}
 
 	public function removeModerator($promoteeUsername) {
-		$actorUsername = Session::get('USERNAME') ?? null;
+		$actorUsername = Session::get('USERNAME');
 
 		if (AccountService::isUserExists($promoteeUsername) === false) {
 			$this->view('Errors/error404');
 		}
-		else if (is_null($actorUsername) === true ||
-				 AccountService::canPromote($actorUsername, $promoteeUsername) === false) {
-			// the user is not logged-in or is not allowed to perform the operation
+		else if (AccountService::canPromote($actorUsername, $promoteeUsername) === false) {
+			// the user is not allowed to perform the operation
 			$this->view('Errors/notAllowed');
 		}
 		else {
@@ -46,41 +44,34 @@ class Accounts extends Controller {
 	}
 
 	public function updatePassword() {
-		$actorUsername = Session::get('USERNAME') ?? null;
+		$actorUsername = Session::get('USERNAME');
+		$data = [
+			'pageTitle' => 'change password'
+		];
 
-		if (is_null($actorUsername) === true) {
-			// not logged in, redirect to login page
-			header('Location: ' . URL . '/Login');
-		}
-		else {
-			$data = [
-				'pageTitle' => 'change password'
+		if (array_key_exists('password', $_POST)) {
+			$password = $_POST['password'];
+
+			$inputs = [
+				'Password' => $password
 			];
 
-			if (array_key_exists('password', $_POST)) {
-				$password = $_POST['password'];
-
-				$inputs = [
-					'Password' => $password
-				];
-
-				$rules = [
-					'Password' => 'PasswordRule'
-				];
+			$rules = [
+				'Password' => 'PasswordRule'
+			];
 				
-				$errors = $this->validate($inputs, $rules);
+			$errors = $this->validate($inputs, $rules);
 
-				if ($errors->hasErrors() === false) {
-					AccountService::updatePassword($actorUsername, $password);
-					$data['success'] = 'Password was updated successfully.';
-				}
-				else {
-					$data['errors'] = $errors->getErrors();
-				}
+			if ($errors->hasErrors() === false) {
+				AccountService::updatePassword($actorUsername, $password);
+				$data['success'] = 'Password was updated successfully.';
 			}
-
-			$this->view('Accounts/updatePassword', $data);
+			else {
+				$data['errors'] = $errors->getErrors();
+			}
 		}
+
+		$this->view('Accounts/updatePassword', $data);
 	}
 }
 

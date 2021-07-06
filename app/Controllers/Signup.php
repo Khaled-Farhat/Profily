@@ -8,13 +8,7 @@ use App\Services\AccountService;
 
 class Signup extends Controller {
 	public function index() {
-		if (is_null(Session::get('USERNAME')) === false) {
-			// check that user is already logged in
-			header('Location: ' . URL);
-		}
-		else {
-			$this->signup();
-		}
+		$this->signup();
 	}
 
 	private function signup() {

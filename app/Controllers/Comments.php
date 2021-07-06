@@ -13,41 +13,31 @@ class Comments extends Controller {
 	public function createComment($postId) {
 		$username = Session::get('USERNAME');
 
-		if (is_null($username) === true) {
-			// not logged-in, redirect to login page
-			header('Location: ' . URL . '/Login');
-		}
-		else {
-			$data = [
-				'pageTitle' => 'Create a comment',
-				'postId' => $postId
-			];
+		$data = [
+			'pageTitle' => 'Create a comment',
+			'postId' => $postId
+		];
 
-			if (array_key_exists('content', $_POST) === true) {
-				$content = trim($_POST['content']);
-				$errors = $this->validateComment($content);
+		if (array_key_exists('content', $_POST) === true) {
+			$content = trim($_POST['content']);
+			$errors = $this->validateComment($content);
 
-				if ($errors->hasErrors() === false) {
-					CommentService::createComment($username, $postId, $content);
-					header('Location: ' . URL . '/Posts/viewPost/' . $postId);
-				}
-				else {
-					$data['errors'] = $errors->getErrors();
-				}
+			if ($errors->hasErrors() === false) {
+				CommentService::createComment($username, $postId, $content);
+				header('Location: ' . URL . '/Posts/viewPost/' . $postId);
 			}
-
-			$this->view('Comments/createComment', $data);
+			else {
+				$data['errors'] = $errors->getErrors();
+			}
 		}
+
+		$this->view('Comments/createComment', $data);
 	}
 
 	public function updateComment($commentId) {
 		$username = Session::get('USERNAME');
 
-		if (is_null($username) === true) {
-			// not logged-in, redirect to login page
-			header('Location: ' . URL . '/Login');
-		}
-		else if (CommentService::isCommentExists($commentId) === false) {
+		if (CommentService::isCommentExists($commentId) === false) {
 			$this->view('Errors/error404');
 		}
 		else if (CommentService::canUpdateComment($username, $commentId) === false) {
@@ -81,11 +71,7 @@ class Comments extends Controller {
 	public function deleteComment($commentId) {
 		$username = Session::get('USERNAME');
 
-		if (is_null($username) === true) {
-			// user is not logged-in, redirect to login page
-			header('Location: ' . URL . '/Login');
-		}
-		else if (CommentService::isCommentExists($commentId) === false) {
+		if (CommentService::isCommentExists($commentId) === false) {
 			$this->view('Errors/error404');
 		}
 		else if (CommentService::canUpdateComment($username, $commentId) === false) {

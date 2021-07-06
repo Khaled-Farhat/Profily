@@ -17,7 +17,7 @@ class Profile extends Controller {
 			$this->view('Errors/error404');
 		}
 		else {
-			$actorUsername = Session::get('USERNAME') ?? null;
+			$actorUsername = Session::get('USERNAME');
 			$data = [
 				'posts' => ProfileService::getProfilePosts($profileUsername),
 				'pageTitle' => 'Profile of ' . $profileUsername

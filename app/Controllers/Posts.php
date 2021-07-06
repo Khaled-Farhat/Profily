@@ -12,34 +12,28 @@ class Posts extends Controller {
 	}
 
 	public function createPost() {
-		if (is_null(Session::get('USERNAME')) === true) {
-			// user is not logged-in, redirect to home page
-			header('Location: ' . URL . '/Login');
-		}
-		else {
-			$data = [
-				'pageTitle' => 'Create a post'
-			];
+		$data = [
+			'pageTitle' => 'Create a post'
+		];
 
-			if (array_key_exists('title', $_POST) && array_key_exists('content', $_POST)) {
-				$title = trim($_POST['title']);
-				$content = rtrim($_POST['content']);
-				$errors = $this->validatePost($title, $content);
+		if (array_key_exists('title', $_POST) && array_key_exists('content', $_POST)) {
+			$title = trim($_POST['title']);
+			$content = rtrim($_POST['content']);
+			$errors = $this->validatePost($title, $content);
 
-				if ($errors->hasErrors() === false) {
-					$actorUsername = Session::get('USERNAME') ?? null;
-					$postId = PostService::createPost($actorUsername, $title, $content);
+			if ($errors->hasErrors() === false) {
+				$actorUsername = Session::get('USERNAME') ?? null;
+				$postId = PostService::createPost($actorUsername, $title, $content);
 
-					$this->viewPost($postId);
-					return;
-				}
-				else {
-					$data['errors'] = $errors->getErrors();
-				}
+				$this->viewPost($postId);
+				return;
 			}
-
-			$this->view('Posts/createPost', $data);
+			else {
+				$data['errors'] = $errors->getErrors();
+			}
 		}
+
+		$this->view('Posts/createPost', $data);
 	}
 
 	public function viewPost($postId) {
@@ -47,7 +41,7 @@ class Posts extends Controller {
 			$this->view('Errors/error404');
 		}
 		else {
-			$actorUsername = Session::get('USERNAME') ?? null;
+			$actorUsername = Session::get('USERNAME');
 			$post = PostService::getPost($postId);
 			$data = [
 				'post' => $post,
@@ -67,14 +61,13 @@ class Posts extends Controller {
 	}
 
 	public function updatePost($postId) {
-		$actorUsername = Session::get('USERNAME') ?? null;
+		$actorUsername = Session::get('USERNAME');
 
 		if (PostService::isPostExists($postId) === false) {
 			$this->view('Errors/error404');
 		}
-		else if ($actorUsername === false ||
-				 PostService::canUpdatePost($actorUsername, $postId) === false) {
-			// the user is not logged-in or not allowed to perform the operation
+		else if (PostService::canUpdatePost($actorUsername, $postId) === false) {
+			// the user is not allowed to perform the operation
 			$this->view('Errors/notAllowed');
 		}
 		else {
@@ -104,14 +97,13 @@ class Posts extends Controller {
 	}
 
 	public function deletePost($postId) {
-		$actorUsername = Session::get('USERNAME') ?? null;
+		$actorUsername = Session::get('USERNAME');
 
 		if (PostService::isPostExists($postId) === false) {
 			$this->view('Errors/error404');
 		}
-		else if ($actorUsername === false ||
-				 PostService::canDeletePost($actorUsername, $postId) === false) {
-			// the user is not logged-in or not allowed to perform the operation
+		else if (PostService::canDeletePost($actorUsername, $postId) === false) {
+			// the user is not allowed to perform the operation
 			$this->view('Errors/notAllowed');
 		}
 		else {

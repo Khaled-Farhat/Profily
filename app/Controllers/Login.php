@@ -8,13 +8,7 @@ use App\Services\AccountService;
 
 class Login extends Controller {
 	public function index() {
-		// check if the user is already logged in
-		if (Session::get('USERNAME') !== null) {
-			header('Location: ' . URL);
-		}
-		else {
-			$this->login();
-		}
+		$this->login();
 	}
 
 	private function login() {
