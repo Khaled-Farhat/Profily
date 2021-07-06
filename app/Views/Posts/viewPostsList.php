@@ -6,7 +6,7 @@
 			?>
 				<div class="shadow-sm card col-12 my-3">
 				  <div class="card-body">
-				    <h5 class="card-title"><?= $post->title ?></h5>
+				    <h5 class="card-title"><?= htmlentities($post->title) ?></h5>
 
 				 	<span class="card-subtitle text-muted">Author: </span>
 				    <a href="<?= URL . '/Profile/viewProfile/' . $post->user->username ?>" class="card-subtitle mb-2 text-muted"><?= $post->user->username ?></a>
@@ -14,7 +14,7 @@
 
 				    <span class="card-subtitle mb-2 text-muted">Last update: <?= date('Y-M-d h:i', strtotime($post->updated_at)) ?></span>
 
-				    <p class="card-text mt-3"><?= nl2br(substr($post->content, 0, 300) . '..') ?></p>
+				    <p class="card-text mt-3"><?= nl2br(substr(htmlentities($post->content), 0, 300) . '..') ?></p>
 
 				    <a href="<?= URL . '/Posts/viewPost/' . $post->id  ?>" class="btn btn-primary bg-gradient">Continue reading</a>
 
