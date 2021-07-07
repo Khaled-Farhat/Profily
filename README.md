@@ -10,7 +10,7 @@ The project was built using PHP, Bootstrap 5, and Illuminate Database while lear
 
 # Installation
 1. run `composer install` in the app root.
-2. Make sure that you have `mode_rewrite` enabled and edit the `RewriteBase` in `public/.htaccess`.
+2. Make sure that you have `mod_rewrite` enabled and edit the `RewriteBase` in `public/.htaccess`.
 3. Run the .sql statements in `install` folder (you can use PHPMyAdmin for example).
 4. Edit the database credentials and the URL of the app in `app/Config.php`.
 5. Open the app and create an account, the first registered user becomes the admin.
